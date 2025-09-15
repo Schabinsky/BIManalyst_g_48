@@ -1,12 +1,23 @@
+from pathlib import Path
 import ifcopenshell
 
-from rules import windowRule
-from rules import doorRule
+modelname = "AC20-FZK-Haus2"
 
-model = ifcopenshell.open("path/to/ifcfile.ifc")
+try:
+    dir_path = Path(__file__).parent
+    model_url = Path.joinpath(dir_path, 'model', modelname).with_suffix('.ifc')
+    model = ifcopenshell.open(model_url)
+except OSError:
+    try:
+        import bpy
+        model_url = Path.joinpath(Path(bpy.context.space_data.text.filepath).parent, 'model', modelname).with_suffix('.ifc')
+        model = ifcopenshell.open(model_url)
+    except OSError:
+        print(f"ERROR: please check your model folder : {model_url} does not exist")
 
-windowResult = windowRule.checkRule(model)
-doorResult = doorRule.checkRule(model)
+# Your script goes here
 
-print("Window result:", windowResult)
-print("Door result:", doorResult)
+# Test if everything works:
+spaces = model.by_type("IfcSpace")
+for space in spaces:
+    print(space.LongName)
