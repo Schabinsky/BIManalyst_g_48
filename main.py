@@ -1,7 +1,7 @@
 from pathlib import Path
 import ifcopenshell
 
-modelname = "25-08-D-ARCH"
+modelname = "25-08-D-STR"
 
 try:
     dir_path = Path(__file__).parent
