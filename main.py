@@ -1,7 +1,8 @@
 from pathlib import Path
 import ifcopenshell
+import ifcopenshell.util.element
 
-modelname = "25-08-D-STR"
+modelname = "25-08-D-ARCH"
 
 try:
     dir_path = Path(__file__).parent
@@ -16,19 +17,25 @@ except OSError:
         print(f"ERROR: please check your model folder : {model_url} does not exist")
 
 # Your script goes here
-def element_count(model, entityName, ifcClass):
-    print("{} = {}".format(entityName,len(model.by_type(ifcClass))))
-
-# Test if everything works:
 spaces = model.by_type("IfcSpace")
-for space in spaces:
-    print(space.LongName)
+meeting_rooms = []
 
-# Get eleveations from each model
-element_count(model, 'Floors', 'ifcBuildingStorey')
-element_count(model, 'Beams', 'ifcBeam')
-element_count(model, 'Special Walls', 'ifcWall')
-element_count(model, 'Curtain Walls', 'ifcCurtainWall')
-element_count(model, 'Stairs', 'ifcStair')
-element_count(model, 'Doors', 'ifcDoor')
-element_count(model, 'Slabs', 'ifcSlab')
+for space in spaces:
+    # print('{} - {}'.format(space.Name, space.LongName))
+    if space.LongName == 'Meeting room':
+        meeting_rooms.append(int(space.Name))
+    else:
+        continue
+print(meeting_rooms)
+
+# PROBLEM: index bliver forkert i koden herunder fordi spaces i spaces listen starter ved 65 og ikke 0. 
+# Find anden måde at hente de rigtige rooms fra den lange liste spaces.
+
+for room in meeting_rooms:
+    # print(spaces[room+1])
+    qtos = ifcopenshell.util.element.get_psets(spaces[room+1], qtos_only=True)
+    print('The area for Meeting room: ' + str(spaces[room+1].Name) + ' is ' + str(qtos['Qto_SpaceBaseQuantities']['NetFloorArea']))
+
+# Hvor mange spaces er der?
+# Hvilke af disse spaces er har label 'Meeting Room'?
+# Hvor store er disse spaces?
