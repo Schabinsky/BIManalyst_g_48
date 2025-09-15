@@ -1,7 +1,7 @@
 from pathlib import Path
 import ifcopenshell
 
-modelname = "AC20-FZK-Haus2"
+modelname = "25-08-D-ARCH"
 
 try:
     dir_path = Path(__file__).parent
@@ -16,8 +16,19 @@ except OSError:
         print(f"ERROR: please check your model folder : {model_url} does not exist")
 
 # Your script goes here
+def element_count(model, entityName, ifcClass):
+    print("{} = {}".format(entityName,len(model.by_type(ifcClass))))
 
 # Test if everything works:
 spaces = model.by_type("IfcSpace")
 for space in spaces:
     print(space.LongName)
+
+# Get eleveations from each model
+element_count(model, 'Floors', 'ifcBuildingStorey')
+element_count(model, 'Beams', 'ifcBeam')
+element_count(model, 'Special Walls', 'ifcWall')
+element_count(model, 'Curtain Walls', 'ifcCurtainWall')
+element_count(model, 'Stairs', 'ifcStair')
+element_count(model, 'Doors', 'ifcDoor')
+element_count(model, 'Slabs', 'ifcSlab')
