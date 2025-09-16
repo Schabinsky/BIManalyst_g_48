@@ -47,6 +47,6 @@ for room in meeting_room_no:
 # Hvor mange spaces er der?
 
 # Hvilke af disse spaces er har label 'Meeting Room'?
-print('A total of' + str(len(meeting_room)) + 'meeting rooms are present in the model')
+print('A total of ' + str(len(meeting_room)) + ' meeting rooms are present in the model')
 
 # Hvor store er disse spaces?
