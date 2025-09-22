@@ -52,3 +52,4 @@ def check_meeting_room_requirement_ver2(model, requirement_nam, requirement_num)
         print(f'There are {len(meeting_room)} {requirement_nam} in the model which is less than the required {requirement_num}')
 
 check_meeting_room_requirement_ver2(model, 'Meeting room', 15)
+check_meeting_room_requirement_ver2(model, 'Office', 15)
