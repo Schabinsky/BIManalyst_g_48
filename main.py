@@ -33,7 +33,7 @@ def check_meeting_room_requirement(model):
 
 # check_meeting_room_requirement(model)
 
-def check_meeting_room_requirement_ver2(model, requirement_nam, requirement_num):
+def check_space_requirement(model, requirement_nam, requirement_num):
     spaces = model.by_type("IfcSpace")
     meeting_room = []
 
@@ -51,5 +51,4 @@ def check_meeting_room_requirement_ver2(model, requirement_nam, requirement_num)
     elif len(meeting_room) < requirement_num:
         print(f'There are {len(meeting_room)} {requirement_nam} in the model which is less than the required {requirement_num}')
 
-check_meeting_room_requirement_ver2(model, 'Meeting room', 15)
-check_meeting_room_requirement_ver2(model, 'Office', 15)
+check_space_requirement(model, 'Meeting room', 15)
