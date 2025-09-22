@@ -47,8 +47,8 @@ def check_meeting_room_requirement_ver2(model, requirement_nam, requirement_num)
     if len(meeting_room) == requirement_num:
         print(f'The requirement of {requirement_nam} = {requirement_num} is fulfilled')
     elif len(meeting_room) > requirement_num:
-        print(f'There are more {requirement_nam} then the required {requirement_num}')
+        print(f'There are {len(meeting_room)} which is more {requirement_nam} than the required {requirement_num}')
     elif len(meeting_room) < requirement_num:
-        print(f'There are less {requirement_nam} then the required {requirement_num}')
+        print(f'There are {len(meeting_room)} which is less {requirement_nam} than the required {requirement_num}')
 
 check_meeting_room_requirement_ver2(model, 'Meeting room', 15)
