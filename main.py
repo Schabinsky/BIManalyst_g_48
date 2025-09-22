@@ -17,22 +17,6 @@ except OSError:
         print(f"ERROR: please check your model folder : {model_url} does not exist")
 
 # Your script goes here
-def check_meeting_room_requirement(model):
-    spaces = model.by_type("IfcSpace")
-    meeting_room = []
-
-    for space in spaces:
-        if space.LongName == 'Meeting room':
-            meeting_room.append(int(space.Name))
-            qtos = ifcopenshell.util.element.get_psets(space, qtos_only=True)
-            sqrm = qtos['Qto_SpaceBaseQuantities']['NetFloorArea']
-            print(f'The area for Meeting room {space.Name} is {sqrm:.1f} m2')
-        else:
-            continue
-    print('A total of ' + str(len(meeting_room)) + ' meeting rooms are present in the model')
-
-# check_meeting_room_requirement(model)
-
 def check_space_requirement(model, requirement_nam, requirement_num):
     spaces = model.by_type("IfcSpace")
     meeting_room = []
