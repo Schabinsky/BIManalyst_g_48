@@ -6,10 +6,10 @@ def check_space_requirement(model, requirement_nam, requirement_num):
     meeting_room = []
 
     for space in spaces:
+        # Go through all spaces and pick out the ones of the desired type
         if space.LongName == requirement_nam:
+            # Take all spaces of required kind and put into a list to see how many of the space type there is
             meeting_room.append(int(space.Name))
-            qtos = ifcopenshell.util.element.get_psets(space, qtos_only=True)
-            sqrm = qtos['Qto_SpaceBaseQuantities']['NetFloorArea']
         else:
             continue
     if len(meeting_room) == requirement_num:
