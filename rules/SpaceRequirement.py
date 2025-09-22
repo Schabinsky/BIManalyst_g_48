@@ -1,5 +1,4 @@
 import ifcopenshell
-import ifcopenshell.util.element
 
 def check_space_requirement(model, requirement_nam, requirement_num):
     spaces = model.by_type("IfcSpace")
