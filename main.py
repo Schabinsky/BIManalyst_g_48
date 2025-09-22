@@ -22,7 +22,6 @@ def check_meeting_room_requirement(model):
     meeting_room = []
 
     for space in spaces:
-        # print('{} - {}'.format(space.Name, space.LongName))
         if space.LongName == 'Meeting room':
             meeting_room.append(int(space.Name))
             qtos = ifcopenshell.util.element.get_psets(space, qtos_only=True)
@@ -33,3 +32,23 @@ def check_meeting_room_requirement(model):
     print('A total of ' + str(len(meeting_room)) + ' meeting rooms are present in the model')
 
 check_meeting_room_requirement(model)
+
+def check_meeting_room_requirement_ver2(model, requirement_nam, requirement_num):
+    spaces = model.by_type("IfcSpace")
+    meeting_room = []
+
+    for space in spaces:
+        if space.LongName == requirement_nam:
+            meeting_room.append(int(space.Name))
+            qtos = ifcopenshell.util.element.get_psets(space, qtos_only=True)
+            sqrm = qtos['Qto_SpaceBaseQuantities']['NetFloorArea']
+        else:
+            continue
+    if len(meeting_room) == requirement_num:
+        print(f'The requirement of {requirement_nam} = {requirement_num} is fulfilled')
+    elif len(meeting_room) > requirement_num:
+        print(f'There are more {requirement_nam} then the required {requirement_num}')
+    elif len(meeting_room) < requirement_num:
+        print(f'There are less {requirement_nam} then the required {requirement_num}')
+
+check_meeting_room_requirement_ver2(model, 'Meeting room', 15)
