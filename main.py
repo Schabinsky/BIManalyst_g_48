@@ -23,3 +23,4 @@ from rules import SpaceRequirement
 
 # Check (model, room type (string), required amount(integer))
 spaceresult = SpaceRequirement.check_space_requirement(model, 'Meeting room', 12)
+# There is currently no return, only a print statement in the function.
