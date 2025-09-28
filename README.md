@@ -19,7 +19,7 @@ Step 3: Compare amount of rooms against requirement (in this case, 12 meeting ro
 ### How to use:
 See main.py for concrete example.
 Model should be loaded before use.
-1. from rules inport SpaceRequirement
+1. from rules import SpaceRequirement
 2. SpaceRequirement.check_space_requirement(model, string(name of room type), integer(required amount of rooms)
 
 Based on amount and requirement, the script will print a statement. e.g. "There are 6 Meeting room in the model which is less than the required 12"
