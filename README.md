@@ -10,6 +10,7 @@ Amount and size of meeting rooms against requirements
 This script checks a certain room type (name is case sensitive) against a provided requirement amount.
 
 Example with meeting rooms:
+
 Step 1: Search for and list rooms named 'Meeting room'
 
 Step 2: Look up and list spaces with the name 'Meeting room'
