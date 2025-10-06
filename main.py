@@ -1,5 +1,6 @@
 from pathlib import Path
 import ifcopenshell
+import ifcopenshell.util.element
 
 #Filename (.ifc assumed)
 modelname = "25-08-D-ARCH"
