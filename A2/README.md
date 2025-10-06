@@ -35,17 +35,20 @@ Justification:
     - 06: Design Authoring
     - 07: Design review
 
-LINK TIL SVG!!!
+![Alt text](./IMG/A2C.svg)
+<img scr="./IMG/A2C.svg">
 
 ### A2d: Scope the use case
-LINK TIL SVG!!!
+![Alt text](./IMG/A2D.svg)
+<img scr="./IMG/A2D.svg">
 
 ### A2e: Tool Idea
 Our idea is to make a tool for automating space requirement checks to be used by either the designing part, the client to ensure requirements are met or by others, to quickly compare a model against set space requirements.
 
 The value in this idea lies in the removal of tedium, saving both energy and time by shortening the amount of energy needed to ensure all rooms are accounted for in a model. 
 
-LINK til SVG!!!
+![Alt text](./IMG/A2E.svg)
+<img scr="./IMG/A2E.svg">
 
 ### A2f: Information Requirements
 Needed information and where to find it:
