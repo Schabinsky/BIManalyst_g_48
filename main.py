@@ -20,7 +20,18 @@ except OSError:
 
 # Import funktion
 from rules import SpaceRequirement
+from A3 import A3_kladde
 
+
+# A1
 # Check (model, room type (string), required amount(integer))
-spaceresult = SpaceRequirement.check_space_requirement(model, 'Meeting room', 12)
+# spaceresult = SpaceRequirement.check_space_requirement(model, 'Meeting room', 12)
 # There is currently no return, only a print statement in the function.
+
+
+# A3
+Area_sum = A3_kladde.total_area_and_number(model)
+print(Area_sum)
+
+space_type = A3_kladde.get_area_by_space_types(model)
+print(space_type)

@@ -122,3 +122,12 @@ def check_space_requirement(model, requirement_nam, requirement_num):
         print(f'There are {len(meeting_room)} {requirement_nam} in the model which is less than the required {requirement_num}')
 
 check_space_requirement(model, 'Meeting room', 15)
+
+
+def get_all_space_types(model):
+    spaces = model.by_type("IfcSpace")
+    space_list = []
+
+    for space in spaces:
+        space_list.append(space.LongName)
+    return list(dict.fromkeys(space_list))
