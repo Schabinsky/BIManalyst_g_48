@@ -49,8 +49,8 @@ def interior_walls_area(model):
             if 'Qto_WallBaseQuantities' in qtos and 'Construction' in psets:
                 length = qtos['Qto_WallBaseQuantities'].get('Length',0)
                 width = psets['Construction'].get('Width',0)
-                wall_lengths.append(int(length))
-                wall_widths.append(int(width))
+                wall_lengths.append(float(length))
+                wall_widths.append(float(width))
 
     interior_walls_summed_area = round(sum(length * width for length, width in zip(wall_lengths, wall_widths))*10**-6, 1)
 
