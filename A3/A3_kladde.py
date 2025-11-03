@@ -10,7 +10,7 @@ def total_area_and_number(model):
         qtos = ifcopenshell.util.element.get_psets(space, qtos_only=True)
         sqrm = qtos['Qto_SpaceBaseQuantities']['NetFloorArea']
         Area_sum.append(sqrm)
-    return len(Area_sum), round(sum(Area_sum),2)
+    return len(Area_sum), round(sum(Area_sum), 1)
 
 def get_area_by_space_types(model):
     spaces = model.by_type("IfcSpace")
@@ -35,4 +35,23 @@ def get_area_by_space_types(model):
     return area_by_type
 
 
+def interior_walls_area(model):
+    walls = model.by_type("IfcWall")
+    walls_object_type_list = []
+    wall_lengths = []
+    wall_widths = []
 
+    for wall in walls:
+        wall_type = wall.ObjectType
+        if wall_type and "Interior".lower() in wall_type.lower():
+            qtos = ifcopenshell.util.element.get_psets(wall, qtos_only=True)
+            psets = ifcopenshell.util.element.get_psets(wall, qtos_only=False)
+            if 'Qto_WallBaseQuantities' in qtos and 'Construction' in psets:
+                length = qtos['Qto_WallBaseQuantities'].get('Length',0)
+                width = psets['Construction'].get('Width',0)
+                wall_lengths.append(int(length))
+                wall_widths.append(int(width))
+
+    interior_walls_summed_area = round(sum(length * width for length, width in zip(wall_lengths, wall_widths))*10**-6, 1)
+
+    return interior_walls_summed_area

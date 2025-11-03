@@ -33,5 +33,9 @@ from A3 import A3_kladde
 Area_sum = A3_kladde.total_area_and_number(model)
 print(Area_sum)
 
-space_type = A3_kladde.get_area_by_space_types(model)
-print(space_type)
+#space_type = A3_kladde.get_area_by_space_types(model)
+#print(space_type)
+
+#Walls
+interior_walls = A3_kladde.interior_walls_area(model)
+print(interior_walls)
