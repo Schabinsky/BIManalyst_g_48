@@ -204,3 +204,46 @@ def exterior_walls_area(model):
     exterior_walls_summed_area = round(sum(length * width for length, width in zip(wall_lengths, wall_widths))*10**-6, 1)
 
     return exterior_walls_summed_area
+
+def read_csv(model):
+    # Define all informations from other functions
+    spaces_area = get_area_by_space_types(model)
+    total_area_number_of_spaces = total_area_and_number(model)
+    walls_area_int = interior_walls_area(model)
+    walls_area_ext = exterior_walls_area(model)
+    curtainwalls_area = curtain_walls_area(model)
+    gross_floor_area = round(total_area_number_of_spaces[0] + walls_area_int + walls_area_ext + curtainwalls_area, 2)
+
+    # Create a dictionary with the informations
+    output_data = {
+        "Area of spaces": spaces_area,
+        "Total area and number of spaces": total_area_number_of_spaces,
+        "Area of interior walls": walls_area_int,
+        "Area of exterior walls": walls_area_ext,
+        "Area of curtain walls": curtainwalls_area,
+        "Gross Floor Area": gross_floor_area
+    }
+
+    # File path setup
+    folder_1 = "ADV_BIM"
+    folder_2 = "A3"
+    filename = "Prisdata.csv"
+    file_path = os.path.join(folder_1, folder_2, filename)
+
+    pris_values = []
+    with open(file_path, mode='r', encoding='utf-8', newline='') as file:
+        csv_reader = csv.DictReader(file, delimiter=';')
+        for row in csv_reader:
+            pris_str = row['Pris'].strip().replace('.', '').replace(',', '.')
+            if pris_str:  # Only convert if string is not empty
+                try:
+                    pris_values.append(float(pris_str))
+                except ValueError:
+                    # Handle rows where conversion fails
+                    pris_values.append(0.0)  # or skip, or log error
+            else:
+                # Handle empty string case
+                pris_values.append(0.0)  # or skip, or log error
+    pris_values = round(sum(pris_values),2)
+
+    return pris_values

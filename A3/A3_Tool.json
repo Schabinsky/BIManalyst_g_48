@@ -25,5 +25,8 @@
         152
     ],
     "Area of interior walls": 312.04,
-    "Area of exterior walls": 528.29
+    "Area of exterior walls": 528.29,
+    "Area of curtain walls": 51.57,
+    "Gross Floor Area": 9280.6,
+    "Estimated price of building based on Molio database price pr. m2": 183095936.53
 }
