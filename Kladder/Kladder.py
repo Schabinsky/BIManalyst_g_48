@@ -162,3 +162,45 @@ def walls_area(model):
     exterior_walls_summed_area = round(sum(ext_length * ext_width for ext_length, ext_width in zip(ext_wall_lengths, ext_wall_widths))*10**-6, 1)
 
     return interior_walls_summed_area, exterior_walls_summed_area
+
+def interior_walls_area(model):
+    walls = model.by_type("IfcWall")
+    wall_lengths = []
+    wall_widths = []
+
+    for wall in walls:
+        wall_type = wall.ObjectType
+        wall_name = wall.Name
+        if wall_type and "Interior".lower() in wall_type.lower() or wall_name and "Interior".lower() in wall_name.lower():
+            qtos = ifcopenshell.util.element.get_psets(wall, qtos_only=True)
+            psets = ifcopenshell.util.element.get_psets(wall, qtos_only=False)
+            if 'Qto_WallBaseQuantities' in qtos and 'Construction' in psets:
+                length = qtos['Qto_WallBaseQuantities'].get('Length',0)
+                width = psets['Construction'].get('Width',0)
+                wall_lengths.append(float(length))
+                wall_widths.append(float(width))
+
+    interior_walls_summed_area = round(sum(length * width for length, width in zip(wall_lengths, wall_widths))*10**-6, 1)
+
+    return interior_walls_summed_area
+
+def exterior_walls_area(model):
+    walls = model.by_type("IfcWall")
+    wall_lengths = []
+    wall_widths = []
+
+    for wall in walls:
+        wall_type = wall.ObjectType
+        wall_name = wall.Name
+        if wall_type and "Exterior".lower() in wall_type.lower() or wall_name and "Exterior".lower() in wall_name.lower():
+            qtos = ifcopenshell.util.element.get_psets(wall, qtos_only=True)
+            psets = ifcopenshell.util.element.get_psets(wall, qtos_only=False)
+            if 'Qto_WallBaseQuantities' in qtos and 'Construction' in psets:
+                length = qtos['Qto_WallBaseQuantities'].get('Length',0)
+                width = psets['Construction'].get('Width',0)
+                wall_lengths.append(float(length))
+                wall_widths.append(float(width))
+
+    exterior_walls_summed_area = round(sum(length * width for length, width in zip(wall_lengths, wall_widths))*10**-6, 1)
+
+    return exterior_walls_summed_area

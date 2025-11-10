@@ -9,7 +9,9 @@ modelname = "25-08-D-ARCH"
 #Load ifc model
 try:
     dir_path = Path(__file__).parent
-    model_url = Path.joinpath(dir_path, 'model', modelname).with_suffix('.ifc')
+    parent_path = dir_path.parent
+    sibling_folder = parent_path / 'model'
+    model_url = sibling_folder / '25-08-D-ARCH.ifc'
     model = ifcopenshell.open(model_url)
 except OSError:
     try:
@@ -20,7 +22,7 @@ except OSError:
         print(f"ERROR: please check your model folder : {model_url} does not exist")
 
 # Import functions
-from A3 import A3_Tool
+from A3_Tool import output_to_json
 
 # A3
-json = A3_Tool.output_to_json(model)
+json = output_to_json(model)

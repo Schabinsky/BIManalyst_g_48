@@ -38,45 +38,45 @@ def get_area_by_space_types(model):
 
 def interior_walls_area(model):
     walls = model.by_type("IfcWall")
-    wall_lengths = []
-    wall_widths = []
+    area_sum = 0.0
 
     for wall in walls:
         wall_type = wall.ObjectType
         wall_name = wall.Name
         if wall_type and "Interior".lower() in wall_type.lower() or wall_name and "Interior".lower() in wall_name.lower():
             qtos = ifcopenshell.util.element.get_psets(wall, qtos_only=True)
-            psets = ifcopenshell.util.element.get_psets(wall, qtos_only=False)
-            if 'Qto_WallBaseQuantities' in qtos and 'Construction' in psets:
+            if 'Qto_WallBaseQuantities' in qtos:
                 length = qtos['Qto_WallBaseQuantities'].get('Length',0)
-                width = psets['Construction'].get('Width',0)
-                wall_lengths.append(float(length))
-                wall_widths.append(float(width))
+                sidearea = qtos['Qto_WallBaseQuantities'].get('NetSideArea',0)
+                volume = qtos['Qto_WallBaseQuantities'].get('NetVolume',0)
 
-    interior_walls_summed_area = round(sum(length * width for length, width in zip(wall_lengths, wall_widths))*10**-6, 1)
-
-    return interior_walls_summed_area
+                if sidearea > 0.0:
+                    width = volume / sidearea
+                    area = width * length * 10**-3
+                    area_sum += area
+                              
+    return round(area_sum, 2)
 
 def exterior_walls_area(model):
     walls = model.by_type("IfcWall")
-    wall_lengths = []
-    wall_widths = []
+    area_sum = 0.0
 
     for wall in walls:
         wall_type = wall.ObjectType
         wall_name = wall.Name
         if wall_type and "Exterior".lower() in wall_type.lower() or wall_name and "Exterior".lower() in wall_name.lower():
             qtos = ifcopenshell.util.element.get_psets(wall, qtos_only=True)
-            psets = ifcopenshell.util.element.get_psets(wall, qtos_only=False)
-            if 'Qto_WallBaseQuantities' in qtos and 'Construction' in psets:
+            if 'Qto_WallBaseQuantities' in qtos:
                 length = qtos['Qto_WallBaseQuantities'].get('Length',0)
-                width = psets['Construction'].get('Width',0)
-                wall_lengths.append(float(length))
-                wall_widths.append(float(width))
+                sidearea = qtos['Qto_WallBaseQuantities'].get('NetSideArea',0)
+                volume = qtos['Qto_WallBaseQuantities'].get('NetVolume',0)
 
-    exterior_walls_summed_area = round(sum(length * width for length, width in zip(wall_lengths, wall_widths))*10**-6, 1)
-
-    return exterior_walls_summed_area
+                if sidearea > 0.0:
+                    width = volume / sidearea
+                    area = width * length * 10**-3
+                    area_sum += area
+                              
+    return round(area_sum, 2)
 
 def output_to_json(model):
     spaces_area = get_area_by_space_types(model)
@@ -102,9 +102,3 @@ def output_to_json(model):
 
     with open(output_path, "w") as json_file:
         json.dump(output_data, json_file, indent=4)
-
-
-
-
-
-
