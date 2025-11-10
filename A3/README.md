@@ -22,8 +22,9 @@ The tool should be useful to:
 ### Necessary information:
 
 In order for the program to run optimally, the .ifc model must meet the following criteria:
-- All floor areas are defined and named.
-- All interior and exterior walls include 'Interior' or 'Exterior' in the name.
+- All floor areas are defined and named. (IfcSpace)
+- All interior and exterior walls include 'Interior' or 'Exterior' in the name. (IfcWall)
+- Dimensions are documented in specific quantity sets ({'Length'(mm), 'NetSideArea'(m2), 'NetVolume'(m3)} in 'Qto_WallBaseQuantities' & {'NetFloorArea'} in 'Qto_SpaceBaseQuantities'). This should be the case by default.
 
 ### Known issues:
 
