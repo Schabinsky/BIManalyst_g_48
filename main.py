@@ -43,5 +43,7 @@ print(interior_walls)
 exterior_walls = A3_kladde.exterior_walls_area(model)
 print(exterior_walls)
 
-walls = A3_kladde.walls_area(model)
-print(walls)
+json = A3_kladde.output_to_json(model)
+
+
+
