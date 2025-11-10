@@ -2,6 +2,7 @@ import ifcopenshell
 import ifcopenshell.util.element
 import numpy as np
 import json
+import os
 
 def total_area_and_number(model):
     spaces = model.by_type("IfcSpace")
@@ -90,11 +91,19 @@ def output_to_json(model):
         "Area of exterior walls": walls_area_ext
     }
 
-    with open("output.json", "w") as json_file:
+    # Create json file and put it in the folder
+    folder_1 = "ADV_BIM"
+    folder_2 = "A3"
+    filename = "A3_Tool.json"
+    output_folder = os.path.join(folder_1, folder_2)      # ADV_BIM/A3
+    os.makedirs(output_folder, exist_ok=True)             # Make sure folders exist
+
+    output_path = os.path.join(output_folder, filename)   # ADV_BIM/A3/A3_Tool.json
+
+    with open(output_path, "w") as json_file:
         json.dump(output_data, json_file, indent=4)
 
 
-    
 
 
 
