@@ -203,6 +203,10 @@ def output_to_json(model):
     # Create a dictionary with the information
     output_data = {
         "Area of spaces": spaces_area,
+        "Weight by spacetype": percentages_by_space,
+        "Price calculated based on Weighted area": price_pr_spacetype,
+        "Price pr. sqrm": price_values,
+        "Wheigted price pr. sqrm": round(sum_price, 2),
         "Total area of spaces": total_area_number_of_spaces[0],
         "Total number of spaces": total_area_number_of_spaces[1],
         "Area of interior walls": walls_area_int,
