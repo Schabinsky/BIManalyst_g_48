@@ -166,11 +166,11 @@ def output_to_json(model):
             else:
                 # Handle empty string case
                 price_values.append(0.0)  # or skip, or log error
-    price_values = round(sum(price_values),2)
+    price_values = round(sum(price_values),4)
 
     # Calculate price based on percentages
     price_pr_spacetype = {
-        spacetype: round(percentages * price_values,2) for spacetype, percentages in percentages_by_space.items()
+        spacetype: round(percentages * price_values,4) for spacetype, percentages in percentages_by_space.items()
         }
     sum_price = sum(price_pr_spacetype.values())
     estimated_price = round(sum_price * gross_floor_area,2)
@@ -198,11 +198,3 @@ def output_to_json(model):
     # Add the data to the file
     with open(output_path, "w", encoding='utf-8') as json_file:
         json.dump(output_data, json_file, indent=4)
-
-
-
-
-        
-
-
-
