@@ -195,8 +195,6 @@ def output_to_json(model):
     }
 
     # Create json file and put it in the folder
-    folder_1 = "ADV_BIM"
-    folder_2 = "A3"
     filename = "A3_Tool.json"
     output_folder = os.path.join(folder_1, folder_2)      
     os.makedirs(output_folder, exist_ok=True)            
