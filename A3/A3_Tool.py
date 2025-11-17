@@ -95,7 +95,7 @@ def exterior_walls_area(model):
     for wall in walls:
         wall_type = wall.ObjectType
         wall_name = wall.Name
-        # Goes through the walls and picks out all interior walls
+        # Goes through the walls and picks out all exterior walls
         if wall_type and "Exterior".lower() in wall_type.lower() or wall_name and "Exterior".lower() in wall_name.lower():
             qtos = ifcopenshell.util.element.get_psets(wall, qtos_only=True)
             # for all spaces with the defined quantity set, get length area and volume
