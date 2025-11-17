@@ -140,6 +140,11 @@ def output_to_json(model):
     walls_area_ext = exterior_walls_area(model)
     curtainwalls_area = curtain_walls_area(model)
     gross_floor_area = round(total_area_number_of_spaces[0] + walls_area_int + walls_area_ext + curtainwalls_area, 2) 
+    
+    # Find how much of the GFA each type of space consumes
+    percentages_by_space = {
+        spacetype: round(area / gross_floor_area, 4) for spacetype, area in spaces_area.items()
+        }
 
     # Extract pricedata pr. m2 from CSV file
     folder_1 = "ADV_BIM"
@@ -165,15 +170,21 @@ def output_to_json(model):
 
     estimated_total_price = round(price_values * gross_floor_area, 2)
 
-    # Create a dictionary with the informations
+    # Calculate price based on percentages
+    price_pr_spacetype = {
+        spacetype: round(percentages * price_values,2) for spacetype, percentages in percentages_by_space.items()
+        }
+    sum_price = sum(price_pr_spacetype.values())
+    new_estimated_price = round(sum_price * gross_floor_area,2)
+
+    # Create a dictionary with the information
     output_data = {
         "Area of spaces": spaces_area,
         "Total area and number of spaces": total_area_number_of_spaces,
         "Area of interior walls": walls_area_int,
         "Area of exterior walls": walls_area_ext,
         "Area of curtain walls": curtainwalls_area,
-        "Gross Floor Area": gross_floor_area,
-        "Estimated price of building based on Molio database price pr. m2": estimated_total_price
+        "Calculated Gross Floor Area": gross_floor_area,
     }
 
     # Create json file and put it in the folder
@@ -188,3 +199,11 @@ def output_to_json(model):
     # Add the data to the file
     with open(output_path, "w", encoding='utf-8') as json_file:
         json.dump(output_data, json_file, indent=4)
+
+
+
+
+        
+
+
+
