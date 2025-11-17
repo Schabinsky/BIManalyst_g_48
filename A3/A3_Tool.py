@@ -140,6 +140,22 @@ def curtain_walls_area(model):
     # 1) The summed floorarea covered by curtainwalls              
     return round(area_sum, 2)
 
+def columns_area(model):
+    columns = model.by_type('IfcColumn')
+    area_sum = 0.0
+
+    for column in columns:
+        psets = ifcopenshell.util.element.get_psets(column, qtos_only=False)
+        if 'Dimensions' in psets:
+            length = psets['Dimensions'].get('Depth',0)
+            width = psets['Dimensions'].get('Width',0)
+            area = length * width * 10**-6
+            area_sum += area
+        else:
+            print('Dimensions is missing for column: ', column)
+    
+    return round(area_sum, 2)
+
 def output_to_json(model):
     # Define all informations from other functions
     spaces_area = get_area_by_space_types(model)
@@ -147,7 +163,8 @@ def output_to_json(model):
     walls_area_int = interior_walls_area(model)
     walls_area_ext = exterior_walls_area(model)
     curtainwalls_area = curtain_walls_area(model)
-    gross_floor_area = round(total_area_number_of_spaces[0] + walls_area_int + walls_area_ext + curtainwalls_area, 2) 
+    columns_total_area = columns_area(model)
+    gross_floor_area = round(total_area_number_of_spaces[0] + walls_area_int + walls_area_ext + curtainwalls_area + columns_total_area, 2) 
     
     # Find how much of the GFA each type of space consumes
     percentages_by_space = {
@@ -186,11 +203,13 @@ def output_to_json(model):
     # Create a dictionary with the information
     output_data = {
         "Area of spaces": spaces_area,
-        "Total area and number of spaces": total_area_number_of_spaces,
+        "Total area of spaces": total_area_number_of_spaces[0],
+        "Total number of spaces": total_area_number_of_spaces[1],
         "Area of interior walls": walls_area_int,
         "Area of exterior walls": walls_area_ext,
         "Area of curtain walls": curtainwalls_area,
-        "Calculated Gross Floor Area": gross_floor_area,
+        "Area of columns": columns_total_area,
+        "Total summed area": gross_floor_area,
         "Estimated price": estimated_price
     }
 

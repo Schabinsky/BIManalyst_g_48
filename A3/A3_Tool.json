@@ -20,13 +20,12 @@
         "Shower": 20.44,
         "Utility": 142.43
     },
-    "Total area and number of spaces": [
-        8388.7,
-        152
-    ],
+    "Total area of spaces": 8388.7,
+    "Total number of spaces": 152,
     "Area of interior walls": 312.04,
     "Area of exterior walls": 528.29,
     "Area of curtain walls": 51.57,
-    "Calculated Gross Floor Area": 9280.6,
-    "Estimated price": 165463797.91
+    "Area of columns": 9.99,
+    "Total summed area": 9290.59,
+    "Estimated price": 165476946.81
 }
