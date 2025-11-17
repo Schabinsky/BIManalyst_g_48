@@ -14,9 +14,12 @@ def total_area_and_number(model):
     for space in spaces:
         # Retrieve only quantity sets for the current space
         qtos = ifcopenshell.util.element.get_psets(space, qtos_only=True)
-        sqrm = qtos['Qto_SpaceBaseQuantities']['NetFloorArea']
-        Area_sum.append(sqrm)
-    
+        if 'Qto_SpaceBaseQuantities' in qtos:
+            sqrm = qtos['Qto_SpaceBaseQuantities']['NetFloorArea']
+            Area_sum.append(sqrm)
+        else:
+            print('Qto_SpaceBaseQuantities is missing for space:', space)
+
     # Returns two values:
     # 1) The total area
     # 2) The total number of spaces in the model
@@ -41,11 +44,12 @@ def get_area_by_space_types(model):
         for space in spaces:
             if space.LongName == type:
                 qtos = ifcopenshell.util.element.get_psets(space, qtos_only=True)
-                sqrm = qtos['Qto_SpaceBaseQuantities']['NetFloorArea']
-                # Add space type with corresponding area to the dictionary initiated in the top
-                area_by_type[type].append(sqrm)
-            else:
-                continue
+                if 'Qto_SpaceBaseQuantities' in qtos:
+                    sqrm = qtos['Qto_SpaceBaseQuantities']['NetFloorArea']
+                    # Add space type with corresponding area to the dictionary initiated in the top
+                    area_by_type[type].append(sqrm)
+                else:
+                    print('Qto_SpaceBaseQuantities is missing for space:', space)
         # sum the list for the current space type
         area_by_type[type] = round(sum(area_by_type[type]),2)
 
@@ -76,7 +80,7 @@ def interior_walls_area(model):
                     area = width * length * 10**-3
                     area_sum += area
             else:
-                print('Qto_WallBaseQuantities is missing')
+                print('Qto_WallBaseQuantities is missing for wall:', wall_name, wall_type)
     
     # Returns one value:
     # 1) The summed floorarea covered by interior walls
@@ -104,6 +108,8 @@ def exterior_walls_area(model):
                     width = volume / sidearea
                     area = width * length * 10**-3
                     area_sum += area
+            else: 
+                print('Qto_WallBaseQuantities is missing for wall:', wall_name, wall_type)
 
     # Returns one value:
     # 1) The summed floorarea covered by exterior walls              
@@ -127,6 +133,8 @@ def curtain_walls_area(model):
                 # Calculate floor area under the wall and sum it together
                 area = 150 * length *10**-6
                 area_sum += area
+            else: 
+                print('Qto_WallBaseQuantities is missing for wall:', wall_name, wall_type)
 
     # Returns one value:
     # 1) The summed floorarea covered by curtainwalls              
@@ -187,8 +195,6 @@ def output_to_json(model):
     }
 
     # Create json file and put it in the folder
-    folder_1 = "ADV_BIM"
-    folder_2 = "A3"
     filename = "A3_Tool.json"
     output_folder = os.path.join(folder_1, folder_2)      
     os.makedirs(output_folder, exist_ok=True)            
