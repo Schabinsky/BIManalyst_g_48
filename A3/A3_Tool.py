@@ -173,7 +173,7 @@ def output_to_json(model):
         spacetype: round(percentages * price_values,2) for spacetype, percentages in percentages_by_space.items()
         }
     sum_price = sum(price_pr_spacetype.values())
-    new_estimated_price = round(sum_price * gross_floor_area,2)
+    estimated_price = round(sum_price * gross_floor_area,2)
 
     # Create a dictionary with the information
     output_data = {
@@ -183,7 +183,7 @@ def output_to_json(model):
         "Area of exterior walls": walls_area_ext,
         "Area of curtain walls": curtainwalls_area,
         "Calculated Gross Floor Area": gross_floor_area,
-        "Estimated price": new_estimated_price
+        "Estimated price": estimated_price
     }
 
     # Create json file and put it in the folder
