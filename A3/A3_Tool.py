@@ -168,8 +168,6 @@ def output_to_json(model):
                 price_values.append(0.0)  # or skip, or log error
     price_values = round(sum(price_values),2)
 
-    estimated_total_price = round(price_values * gross_floor_area, 2)
-
     # Calculate price based on percentages
     price_pr_spacetype = {
         spacetype: round(percentages * price_values,2) for spacetype, percentages in percentages_by_space.items()
@@ -185,6 +183,7 @@ def output_to_json(model):
         "Area of exterior walls": walls_area_ext,
         "Area of curtain walls": curtainwalls_area,
         "Calculated Gross Floor Area": gross_floor_area,
+        "Estimated price": new_estimated_price
     }
 
     # Create json file and put it in the folder
