@@ -157,7 +157,7 @@ def output_to_json(model):
     # Extract pricedata pr. m2 from CSV file
     folder_1 = "ADV_BIM"
     folder_2 = "A3"
-    filename = "Prisdata.csv"
+    filename = "Pricedata.csv"
     file_path = os.path.join(folder_1, folder_2, filename)
 
     price_values = []
