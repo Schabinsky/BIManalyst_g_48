@@ -22,7 +22,10 @@ except OSError:
         print(f"ERROR: please check your model folder : {model_url} does not exist")
 
 # Import functions
-from A3_Tool import output_to_json
+from A3_Tool import area_output_to_json
+from A3_Tool import price_output_to_JSON
 
 # A3
-json = output_to_json(model)
+area = area_output_to_json(model, os.getcwd() + '/ADV_BIM/A3', 'A3_Output_area')
+
+price = price_output_to_JSON(model, os.getcwd() + '/ADV_BIM/A3', 'A3_Output_price')

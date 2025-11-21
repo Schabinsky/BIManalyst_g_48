@@ -4,6 +4,7 @@ import numpy as np
 import json
 import os
 import csv
+import shutil
 
 def total_area_and_number(model):
     # Extract all spaces from the IFC model
@@ -153,10 +154,49 @@ def columns_area(model):
             area_sum += area
         else:
             print('Dimensions is missing for column: ', column)
-    
+
+    # Returns one value:
+    # 1) The summed floorarea covered by columns
     return round(area_sum, 2)
 
-def output_to_json(model):
+def copy_csv_files_to_folder(src_folder):
+    folder_name = 'Output'
+    dest_folder = os.path.join(src_folder, folder_name)
+    os.makedirs(dest_folder, exist_ok=True)
+    
+    csv_files = [f for f in os.listdir(src_folder) if f.endswith('.csv') and os.path.isfile(os.path.join(src_folder, f))]
+    copied_files = []
+    for csv_file in csv_files:
+        src_file = os.path.join(src_folder, csv_file)
+        dest_file = os.path.join(dest_folder, csv_file)
+        shutil.copy2(src_file, dest_file)
+        copied_files.append(dest_file)
+    
+    print('Copied:', len(copied_files), '.csv files to folder:', dest_folder)
+
+    # Returns two values:
+    # 1) The copied csv-files
+    # 2) The folder the csv-files are copied to
+    return copied_files, dest_folder
+
+def aggregate_price_values(csv_files):
+    price_values = []
+    for file_path in csv_files:
+        with open(file_path, mode='r', encoding='utf-8') as file:
+            csv_reader = csv.DictReader(file, delimiter=';')
+            for row in csv_reader:
+                price_str = row['Pris'].strip().replace('.', '').replace(',', '.')
+                try:
+                    price_values.append(float(price_str)) if price_str else price_values.append(0.0)
+                except ValueError:
+                    price_values.append(0.0)
+    total_price = round(sum(price_values), 4)
+
+    # Returns one value:
+    # 1) The summed price pr. sqrm from csv-file 
+    return total_price
+
+def area_output_to_json(model, file_path, output_filename):
     # Define all informations from other functions
     spaces_area = get_area_by_space_types(model)
     total_area_number_of_spaces = total_area_and_number(model)
@@ -165,38 +205,49 @@ def output_to_json(model):
     curtainwalls_area = curtain_walls_area(model)
     columns_total_area = columns_area(model)
     gross_floor_area = round(total_area_number_of_spaces[0] + walls_area_int + walls_area_ext + curtainwalls_area + columns_total_area, 2) 
-    
+
+    # File handling: Copy and read CSV files
+    csv_files, folder_path = copy_csv_files_to_folder(file_path)
+
+    # Create a dictionary with the information
+    output_data = {
+        "Area of spaces": spaces_area,
+        "Total area of spaces": total_area_number_of_spaces[0],
+        "Total number of spaces": total_area_number_of_spaces[1],
+        "Area of interior walls": walls_area_int,
+        "Area of exterior walls": walls_area_ext,
+        "Area of curtain walls": curtainwalls_area,
+        "Area of columns": columns_total_area,
+        "Total summed area": gross_floor_area
+    }
+
+    output_path = os.path.join(folder_path, output_filename)
+    with open(output_path, "w", encoding='utf-8') as json_file:
+        json.dump(output_data, json_file, indent=4)
+    print(f"JSON file saved to {output_path}")
+
+    # Creates one file:
+    # 1) .json file with area data
+
+def price_output_to_JSON(model, file_path, output_filename):
+    # Define all informations from other functions
+    spaces_area = get_area_by_space_types(model)
+    total_area_number_of_spaces = total_area_and_number(model)
+    walls_area_int = interior_walls_area(model)
+    walls_area_ext = exterior_walls_area(model)
+    curtainwalls_area = curtain_walls_area(model)
+    columns_total_area = columns_area(model)
+    gross_floor_area = round(total_area_number_of_spaces[0] + walls_area_int + walls_area_ext + curtainwalls_area + columns_total_area, 2) 
+
+    # File handling: Copy and read CSV files
+    csv_files, folder_path = copy_csv_files_to_folder(file_path)
+    price_values = aggregate_price_values(csv_files)
+                
     # Find how much of the GFA each type of space consumes
-    percentages_by_space = {
-        spacetype: round(area / gross_floor_area, 4) for spacetype, area in spaces_area.items()
-        }
-
-    # Extract pricedata pr. m2 from CSV file
-    folder_1 = "ADV_BIM"
-    folder_2 = "A3"
-    filename = "Pricedata.csv"
-    file_path = os.path.join(folder_1, folder_2, filename)
-
-    price_values = []
-    with open(file_path, mode='r', encoding='utf-8', newline='') as file:
-        csv_reader = csv.DictReader(file, delimiter=';')
-        for row in csv_reader:
-            price_str = row['Pris'].strip().replace('.', '').replace(',', '.')
-            if price_str:  # Only convert if string is not empty
-                try:
-                    price_values.append(float(price_str))
-                except ValueError:
-                    # Handle rows where conversion fails
-                    price_values.append(0.0)  # or skip, or log error
-            else:
-                # Handle empty string case
-                price_values.append(0.0)  # or skip, or log error
-    price_values = round(sum(price_values),4)
-
+    percentages_by_space = {spacetype: round(area / gross_floor_area, 4) for spacetype, area in spaces_area.items()}
+    
     # Calculate price based on percentages
-    price_pr_spacetype = {
-        spacetype: round(percentages * price_values,4) for spacetype, percentages in percentages_by_space.items()
-        }
+    price_pr_spacetype = {spacetype: round(percentages * price_values,4) for spacetype, percentages in percentages_by_space.items()}
     sum_price = sum(price_pr_spacetype.values())
     estimated_price = round(sum_price * gross_floor_area,2)
 
@@ -207,23 +258,13 @@ def output_to_json(model):
         "Price calculated based on Weighted area": price_pr_spacetype,
         "Price pr. sqrm": price_values,
         "Wheigted price pr. sqrm": round(sum_price, 2),
-        "Total area of spaces": total_area_number_of_spaces[0],
-        "Total number of spaces": total_area_number_of_spaces[1],
-        "Area of interior walls": walls_area_int,
-        "Area of exterior walls": walls_area_ext,
-        "Area of curtain walls": curtainwalls_area,
-        "Area of columns": columns_total_area,
-        "Total summed area": gross_floor_area,
         "Estimated price": estimated_price
     }
-
-    # Create json file and put it in the folder
-    filename = "A3_Tool.json"
-    output_folder = os.path.join(folder_1, folder_2)      
-    os.makedirs(output_folder, exist_ok=True)            
-
-    output_path = os.path.join(output_folder, filename)   
-
-    # Add the data to the file
+        
+    output_path = os.path.join(folder_path, output_filename)
     with open(output_path, "w", encoding='utf-8') as json_file:
         json.dump(output_data, json_file, indent=4)
+    print(f"JSON file saved to {output_path}")
+
+    # Creates one file:
+    # 1) .json file with price data
