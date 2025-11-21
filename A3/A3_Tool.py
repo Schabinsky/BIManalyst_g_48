@@ -247,35 +247,23 @@ def area_output_to_json(model, file_path, output_filename):
     # Creates one file:
     # 1) .json file with area data
 
-def price_output_to_JSON(model, file_path, output_filename):
+def price_output_to_json(model, file_path, output_filename):
     # Define all informations from other functions
     spaces_area = get_area_by_space_types(model)
-    total_area_number_of_spaces = total_area_and_number(model)
-    walls_area_int = interior_walls_area(model)
-    walls_area_ext = exterior_walls_area(model)
-    curtainwalls_area = curtain_walls_area(model)
-    columns_total_area = columns_area(model)
-    gross_floor_area = round(total_area_number_of_spaces[0] + walls_area_int + walls_area_ext + curtainwalls_area + columns_total_area, 2) 
 
     # File handling: Copy and read CSV files
     csv_files, folder_path = copy_csv_files_to_folder(file_path)
     price_values = aggregate_price_values(csv_files)
                 
-    # Find how much of the GFA each type of space consumes
-    percentages_by_space = {spacetype: round(area / gross_floor_area, 4) for spacetype, area in spaces_area.items()}
-    
     # Calculate price based on percentages
-    price_pr_spacetype = {spacetype: round(percentages * price_values,4) for spacetype, percentages in percentages_by_space.items()}
-    sum_price = sum(price_pr_spacetype.values())
-    estimated_price = round(sum_price * gross_floor_area,2)
+    price_pr_spacetype = {spacetype: round(area * price_values,4) for spacetype, area in spaces_area.items()}
+    estimated_price = sum(price_pr_spacetype.values())
 
     # Create a dictionary with the information
     output_data = {
         "Area of spaces": spaces_area,
-        "Weight by spacetype": percentages_by_space,
-        "Price calculated based on Weighted area": price_pr_spacetype,
+        "Price pr. space type": price_pr_spacetype,
         "Price pr. sqrm": price_values,
-        "Wheigted price pr. sqrm": round(sum_price, 2),
         "Estimated price": estimated_price
     }
         

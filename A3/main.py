@@ -23,8 +23,8 @@ except OSError:
 
 # Import functions
 from A3_Tool import area_output_to_json
-from A3_Tool import price_output_to_JSON
+from A3_Tool import price_output_to_json
 
 # A3
 area = area_output_to_json(model, os.getcwd() + '/ADV_BIM/A3', 'A3_Output_area')
-price = price_output_to_JSON(model, os.getcwd() + '/ADV_BIM/A3', 'A3_Output_price')
+price = price_output_to_json(model, os.getcwd() + '/ADV_BIM/A3', 'A3_Output_price')
