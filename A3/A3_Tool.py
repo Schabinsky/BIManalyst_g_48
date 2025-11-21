@@ -268,7 +268,7 @@ def price_output_to_json(model, file_path, output_filename):
     percentages_by_space = {spacetype: round(area / gross_floor_area, 4) for spacetype, area in spaces_area.items()}
     
     # Calculate price based on percentages
-    price_pr_spacetype = {spacetype: round(total_price / area,4) for spacetype, area in spaces_area.items()}
+    price_pr_spacetype = {spacetype: round(total_price * percentage,4) for spacetype, percentage in percentages_by_space.items()}
 
     # Create a dictionary with the information
     output_data = {
