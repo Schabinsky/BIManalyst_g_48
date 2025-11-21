@@ -1,6 +1,5 @@
 import ifcopenshell
 import ifcopenshell.util.element
-import numpy as np
 import json
 import os
 import csv
@@ -160,36 +159,55 @@ def columns_area(model):
     return round(area_sum, 2)
 
 def copy_csv_files_to_folder(src_folder):
+    # Name of the output folder where CSV files will be copied
     folder_name = 'Output'
+    # construct the full path to the destination folder
     dest_folder = os.path.join(src_folder, folder_name)
+    # Create the destination folder if it doesn't already exist
     os.makedirs(dest_folder, exist_ok=True)
     
+    # Find all CSV files in the source folder
     csv_files = [f for f in os.listdir(src_folder) if f.endswith('.csv') and os.path.isfile(os.path.join(src_folder, f))]
     copied_files = []
+    # Loop over each CSV file found in the source folder
     for csv_file in csv_files:
+        # Build the full source path and destination path for the file
         src_file = os.path.join(src_folder, csv_file)
         dest_file = os.path.join(dest_folder, csv_file)
+        # Copy the CSV file to the destination folder
         shutil.copy2(src_file, dest_file)
+        # Record the new file's path in the copied_files list
         copied_files.append(dest_file)
     
+    # Print information about the copy destination
     print('Copied:', len(copied_files), '.csv files to folder:', dest_folder)
 
     # Returns two values:
-    # 1) The copied csv-files
-    # 2) The folder the csv-files are copied to
+    # 1) copied_files: a list of paths to the copied CSV files
+    # 2) dest_folder: the path to the folder where files were copied
     return copied_files, dest_folder
 
 def aggregate_price_values(csv_files):
+    # Initialize an empty list to store all price values extracted from CSV files
     price_values = []
+
+    # Loop over the list of CSV file paths
     for file_path in csv_files:
+        # open the current CSV file for reading
         with open(file_path, mode='r', encoding='utf-8') as file:
             csv_reader = csv.DictReader(file, delimiter=';')
+            # Iterate over each row in the CSv file
             for row in csv_reader:
+                # Retrieve the value in the 'Pris' column and clean the formatting:
+                # - Remove '.' and replace ',' with '.'
                 price_str = row['Pris'].strip().replace('.', '').replace(',', '.')
+                # If the cleaned string is not empty, convert to float an add to the list
                 try:
                     price_values.append(float(price_str)) if price_str else price_values.append(0.0)
+                # If conversion fails, append 0.0 as fallback
                 except ValueError:
                     price_values.append(0.0)
+    # Caculate the som of all extracted price values
     total_price = round(sum(price_values), 4)
 
     # Returns one value:

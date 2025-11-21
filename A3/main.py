@@ -27,5 +27,4 @@ from A3_Tool import price_output_to_JSON
 
 # A3
 area = area_output_to_json(model, os.getcwd() + '/ADV_BIM/A3', 'A3_Output_area')
-
 price = price_output_to_JSON(model, os.getcwd() + '/ADV_BIM/A3', 'A3_Output_price')
