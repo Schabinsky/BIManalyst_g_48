@@ -12,6 +12,8 @@ Description: Calculates GFA from NetFloorAreas and Wall/Column footprint, return
 
 ## Teaching video
 
+The image below links to a youtube video explaining our journey with the tool:
+
 [![GFA estimate, area distribtuion and rough price estimate](http://img.youtube.com/vi/eQCM8fGM3PU/0.jpg)](http://www.youtube.com/watch?v=eQCM8fGM3PU "GFA estimate, area distribtuion and rough price estimate")
 
 
