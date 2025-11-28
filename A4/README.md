@@ -8,6 +8,28 @@ Category: BUILD
 
 Description: Calculates GFA from NetFloorAreas and Wall/Column footprint, returns GFA and distribution of areas across area types, calculates rough estimate based on price per $m^2$ input.
 
+## Quick introduction
+
+We are group 48 in BUILD, and the tool we have developed is a relatively simple tool, made to quickly list all areas in an architectural model.
+
+With the input of an IFC model with IfcSpace, IfcWall, IfcCurtainWall and IfcColumn defined, our tool outputs an overview of all areas, as well as the areas occupied by walls, curtainwalls and columns in the shape of a .json file.
+
+This session is not a dedicated tutorial on how to use the tool (please refer to the A3 submission for that), but rather looks at the following:
+- a view into the thoughts behind the tool 
+- how it works 
+- the challenges faced
+
+### Finding the concept
+
+In the early stages of development, the initial idea was to compare a given IFC model against a list of client requirements, where given a list of requirements and a model, the tool would indicate compliance. This was specifically targeted at the building requirements given in the Advanced Building Design course.
+
+![alt text](../A2/IMG/A2D.svg)
+
+However, after coordination with the rest of the team, it was evident that this was too complex and that more value could be produced from simply listing the distribution of areas in a model for the following reasons:
+- The tool would become much easier to use by not having to understand a set logic for comparison, while almost providing the same level of information.
+- A simple overview of the different areas are useful to a larger part of the group (e.g. useful to MEP for planning heating, cooling, ventilation etc.)
+- The code behind the tool also becomes both simpler and easier to understand.
+
 ## Tutorial
 
 ### Prerequisites
@@ -52,28 +74,6 @@ Only the IFC model is required as input.
 
 - The tool generates a JSON file containing the results in a dictionary format.  
 - Open the JSON file to inspect the results.  
-
-## Quick introduction
-
-We are group 48 in BUILD, and the tool we have developed is a relatively simple tool, made to quickly list all areas in an architectural model.
-
-With the input of an IFC model with IfcSpace, IfcWall, IfcCurtainWall and IfcColumn defined, our tool outputs an overview of all areas, as well as the areas occupied by walls, curtainwalls and columns in the shape of a .json file.
-
-This session is not a dedicated tutorial on how to use the tool (please refer to the A3 submission for that), but rather looks at the following:
-- a view into the thoughts behind the tool 
-- how it works 
-- the challenges faced
-
-### Finding the concept
-
-In the early stages of development, the initial idea was to compare a given IFC model against a list of client requirements, where given a list of requirements and a model, the tool would indicate compliance. This was specifically targeted at the building requirements given in the Advanced Building Design course.
-
-![alt text](../A2/IMG/A2D.svg)
-
-However, after coordination with the rest of the team, it was evident that this was too complex and that more value could be produced from simply listing the distribution of areas in a model for the following reasons:
-- The tool would become much easier to use by not having to understand a set logic for comparison, while almost providing the same level of information.
-- A simple overview of the different areas are useful to a larger part of the group (e.g. useful to MEP for planning heating, cooling, ventilation etc.)
-- The code behind the tool also becomes both simpler and easier to understand.
 
 ## The Tool
 The tool consists of 7 separate functions;
