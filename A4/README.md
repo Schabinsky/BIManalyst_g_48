@@ -10,6 +10,11 @@ Category: BUILD
 
 Description: Calculates GFA from NetFloorAreas and Wall/Column footprint, returns GFA and distribution of areas across area types, calculates rough estimate based on price per $m^2$ input.
 
+## Teaching video
+
+![GFA estimate, area distribtuion and rough price estimate]([https://www.youtube.com/embed/VIDEO_ID](https://youtu.be/eQCM8fGM3PU))
+
+
 ## Quick introduction
 
 We are group 48 in BUILD, and the tool we have developed is a relatively simple tool, made to quickly list all areas in an architectural model.
