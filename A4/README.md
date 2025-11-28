@@ -78,11 +78,13 @@ Only the IFC model is required as input.
 - Open the JSON file to inspect the results.  
 
 ## The script
-The script consists of 7 separate functions;
+The script consists of 10 separate functions;
 - One for calculating the total area and number of all spaces.
 - One for calculating the total area of all space types.
 - Four for calculating floor area used on walls and columns.
-- One final that gathers the areas and outputs them as a .json file.
+- Two for handling CSV files.
+- One that gathers the areas and outputs them as a .json file.
+- One that gathers the estimated prices and outputs them as a .json file.
 
 ### Imports
 ```python
