@@ -76,7 +76,7 @@ Only the IFC model is required as input.
 - Open the JSON file to inspect the results.  
 
 ## The script
-The tool consists of 7 separate functions;
+The script consists of 7 separate functions;
 - One for calculating the total area and number of all spaces.
 - One for calculating the total area of all space types.
 - Four for calculating floor area used on walls and columns.
