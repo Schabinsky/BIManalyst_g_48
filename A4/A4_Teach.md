@@ -1,4 +1,13 @@
 # A4: Teach 
+
+## Summary
+
+Title: GFA estimate, area distribution and rough price estimate
+
+Category: BUILD
+
+Description: Calculates GFA from NetFloorAreas and Wall/Column footprint, returns GFA and distribution of areas across area types, calculates rough estimate based on price per $m^2$ input.
+
 ## Tutorial
 
 ### Prerequisites
