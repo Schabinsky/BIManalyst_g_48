@@ -75,7 +75,7 @@ Only the IFC model is required as input.
 - The tool generates a JSON file containing the results in a dictionary format.  
 - Open the JSON file to inspect the results.  
 
-## The Tool
+## The script
 The tool consists of 7 separate functions;
 - One for calculating the total area and number of all spaces.
 - One for calculating the total area of all space types.
