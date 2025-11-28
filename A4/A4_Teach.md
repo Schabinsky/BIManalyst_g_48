@@ -228,15 +228,15 @@ def area_output_to_json(model, file_path, output_filename):
 ```
 
 ## Challenges
-While working with building the script we met a variety of technical and practical hurdles that needed to be adressed to create a flexible and maintainable solution. 
+While working with building the script we met a variety of technical and practical hurdles that needed to be addressed to create a flexible and maintainable solution. 
 
-In the scripting process we encountered two main challenges.
+In the scripting process we encountered two main challenges:
 
 #### Relying solely on quantity sets
-For simplicity we aimed to create functions only depend on quantity sets. Ensuring this prooved to be difficult, as not every element in an IFC file may have these sets defined or populated correctly. Inconsistencies or gaps in how quantity sets are assigned across different models and authoring tools require manual preprocessing or additional logic to attain reliable results.
+For the sake of simplicity and for less reliance of Revit, we aimed to create functions only depending on quantity sets. Ensuring this proved to be difficult, as not every element in an IFC file necessarily have these sets defined or populated correctly. Inconsistencies or gaps in how quantity sets are assigned across different models and authoring tools require manual preprocessing or additional logic to attain reliable results.
 
 #### Folder handling and CSV file management
-Locating and copying the correct CSV file from directory structures presents compatability concerns, especially when scripts are moved between different computers or environments. Funcitons hardcoded to specific folder paths or file names lose portability, so scripts must include dynamic directory handling and robust error checking to remain usable for various users and projects.
+Locating and copying the correct CSV file from directory structures present compatability concerns, especially when scripts are moved between different computers or environments. Functions hardcoded to specific folder paths or file names lose portability, so scripts must include dynamic directory handling and robust error checking to remain usable for various users and projects.
 
 ## Possible improvements
 #### CSV-files
@@ -246,4 +246,4 @@ Currently, the code requires a CSV file with a specific column header to calcula
 We aimed to design a script that relies on as few variables as possible. To achieve this, most functions were built to depend only on quantity sets, with the exception of columns, which did not include any. A potential improvement would be to begin the script by processing the IFC file to ensure that all relevant elements contain the necessary quantity sets before the main calculations run.
 
 #### Failsafes
-To make the script more robust and compatible with different IFC files, additional failsafes should be implemented. These checks ensure that the script can handle missing elements, undefined values, or unexpected data structures without causing errors or interruptions during execution
+To make the script more robust and compatible with different IFC files, additional failsafes should be implemented. These checks ensure that the script can handle missing elements, undefined values, or unexpected data structures without causing errors or interruptions during execution.
