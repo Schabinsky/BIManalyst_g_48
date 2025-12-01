@@ -20,7 +20,7 @@ Group 48, BUILD Analyst
 ### Advanced Building Design stage?
 - Primarily A and B, but can be used to some degree in all design stages.
 
-## Freya's individual answers
+## s234272 Freya
 ### Learning experience
 At the beginning of the course my level was Modeller. At the end i feel confident as Modeller and Analyst. I feel competent to some degree as BIM Guru. 
 
